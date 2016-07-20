@@ -15,7 +15,7 @@ namespace HomeLibrary
     [Fact]
     public void Test_GetAll_DatabaseEmptyAtFirst()
     {
-      int result = OwnedBooks.GetAll().Count;
+      int result = Categories.GetAll().Count;
 
       Assert.Equal(0, result);
     }
