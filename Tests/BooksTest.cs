@@ -70,6 +70,22 @@ namespace HomeLibrary
       secondBook.AddCategory(testCategory);
       Assert.Equal(1, secondBook.GetCategories().Count);
     }
+    [Fact]
+    public void Test_GetCategories_RemoveSpecificCategoryFromBookInstance()
+    {
+      Books firstBook = new Books ("The Fellowship of the Ring", "JRR Tolkien");
+      firstBook.Save();
+      Books secondBook = new Books ("The Two Towers", "JRR Tolkien");
+      secondBook.Save();
+      Categories testCategory = new Categories("sequel");
+      testCategory.Save();
+      Categories notherTestCategory = new Categories("graphic novel");
+      testCategory.Save();
+      secondBook.AddCategory(testCategory);
+      secondBook.AddCategory(notherTestCategory);
+      secondBook.DeleteCategory(notherTestCategory);
+      Assert.Equal(1, secondBook.GetCategories().Count);
+    }
     public void Dispose()
     {
       Books.DeleteAll();

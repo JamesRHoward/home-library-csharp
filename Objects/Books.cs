@@ -20,26 +20,6 @@ namespace HomeLibrary
       _readBool = readBool;
     }
 
-    public void AddCategory (Categories newCategory)
-    {
-      SqlConnection conn = DB.Connection();
-      conn.Open();
-      SqlCommand cmd = new SqlCommand ("INSERT INTO books_categories (book_id, category_id) VALUES (@BookId, @CategoryId);", conn);
-      SqlParameter bookIdParameter = new SqlParameter();
-      bookIdParameter.ParameterName = "@BookId";
-      bookIdParameter.Value = this.GetId();
-      SqlParameter categoryIdParameter = new SqlParameter ();
-      categoryIdParameter.ParameterName = "@CategoryId";
-      categoryIdParameter.Value = newCategory.GetId();
-      cmd.Parameters.Add(bookIdParameter);
-      cmd.Parameters.Add(categoryIdParameter);
-      cmd.ExecuteNonQuery();
-      if (conn != null)
-      {
-        conn.Close();
-      }
-    }
-
     public void SetTitle(string title)
     {
       _title = title;
@@ -201,6 +181,26 @@ namespace HomeLibrary
       cmd.ExecuteNonQuery();
     }
 
+    public void AddCategory (Categories newCategory)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+      SqlCommand cmd = new SqlCommand ("INSERT INTO books_categories (book_id, category_id) VALUES (@BookId, @CategoryId);", conn);
+      SqlParameter bookIdParameter = new SqlParameter();
+      bookIdParameter.ParameterName = "@BookId";
+      bookIdParameter.Value = this.GetId();
+      SqlParameter categoryIdParameter = new SqlParameter ();
+      categoryIdParameter.ParameterName = "@CategoryId";
+      categoryIdParameter.Value = newCategory.GetId();
+      cmd.Parameters.Add(bookIdParameter);
+      cmd.Parameters.Add(categoryIdParameter);
+      cmd.ExecuteNonQuery();
+      if (conn != null)
+      {
+        conn.Close();
+      }
+    }
+
     public List<Categories> GetCategories()
     {
       SqlConnection conn = DB.Connection();
@@ -234,6 +234,25 @@ namespace HomeLibrary
         conn.Close();
       }
       return categories;
+    }
+
+    public void DeleteCategory(Categories categoryToRemove)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("DELETE FROM books_categories WHERE book_id = @BookId AND  category_id = @CategoryId;", conn);
+      SqlParameter bookIdParameter = new SqlParameter();
+      bookIdParameter.ParameterName = "@BookId";
+      bookIdParameter.Value = this.GetId().ToString();
+      SqlParameter categoryIdParameter = new SqlParameter();
+      categoryIdParameter.ParameterName = "@CategoryId";
+      categoryIdParameter.Value = categoryToRemove.GetId().ToString();
+
+      cmd.Parameters.Add(bookIdParameter);
+      cmd.Parameters.Add(categoryIdParameter);
+
+      cmd.ExecuteNonQuery();
     }
 
   }
