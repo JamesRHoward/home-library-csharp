@@ -4,14 +4,14 @@ using System.Data.SqlClient;
 
 namespace HomeLibrary
 {
-  public class OwndedBooks
+  public class OwnedBooks
   {
     private int _id;
     private int _bookId;
     private bool _isPhysical;
     private int _storageId;
 
-    public Books(int bookId, bool isPhysical = true, int storageId = null, int id = 0)
+    public OwnedBooks(int bookId, bool isPhysical = true, int storageId = 0, int id = 0)
     {
       _id = id;
       _bookId = bookId;
@@ -27,7 +27,7 @@ namespace HomeLibrary
     {
       _isPhysical = isPhysical;
     }
-    public void SetStorageId(string storageId)
+    public void SetStorageId(int storageId)
     {
       _storageId = storageId;
     }
@@ -36,30 +36,29 @@ namespace HomeLibrary
     {
       return _id;
     }
-    public string GetTitle()
+    public int GetBookId()
     {
-      return _title;
+      return _bookId;
     }
-    public string GetAuthor()
+    public bool GetIsPhysical()
     {
-      return _author;
+      return _isPhysical;
     }
-    public bool GetReadBool()
+    public int GetStorageId()
     {
-      return _readBool;
-      //readBool gives you wiiiiiings
+      return _storageId;
     }
 
-    public override bool Equals (System.Object otherBooks)
+    public override bool Equals (System.Object otherOwnedBooks)
     {
-      if (otherBooks is Books)
+      if (otherOwnedBooks is OwnedBooks)
       {
        Books newBooks = (Books) otherBooks;
        bool idEquality = (this.GetId() == newBooks.GetId());
-       bool titleEquality = (this.GetTitle() == newBooks.GetTitle());
-       bool authorEquality = (this.GetAuthor() == newBooks.GetAuthor());
-       bool readBoolEquality = (this.GetReadBool() == newBooks.GetReadBool());
-       return (idEquality && titleEquality && authorEquality && readBoolEquality);
+       bool bookIdEquality = (this.GetBookId() == newBooks.GetBookId());
+       bool isPhysicalEquality = (this.GetIsPhysical() == newBooks.GetIsPhysical());
+       bool storageIdEquality = (this.GetStorageId() == newBooks.GetStorageId());
+       return (idEquality && bookIdEquality && isPhysicalEquality && storageIdEquality);
       }
       else
       {
@@ -67,7 +66,7 @@ namespace HomeLibrary
       }
     }
 
-    public static List<Books> GetAll()
+    public static List<OwnedBooks> GetAll()
     {
       List<Books> allBooks = new List<Books>{};
       SqlConnection conn = DB.Connection();
@@ -95,82 +94,82 @@ namespace HomeLibrary
       return allBooks;
     }
 
-    public void Save()
-   {
-     SqlConnection conn = DB.Connection();
-     conn.Open();
-     SqlDataReader rdr = null;
-     SqlCommand cmd = new SqlCommand ("INSERT INTO all_books (title, author, read_bool) OUTPUT INSERTED.id VALUES (@BookTitle, @BookAuthor, @BookReadBool);", conn);
-     SqlParameter titleParameter = new SqlParameter();
-     titleParameter.ParameterName = "@BookTitle";
-     titleParameter.Value = this.GetTitle();
-     SqlParameter authorParameter = new SqlParameter();
-     authorParameter.ParameterName = "@BookAuthor";
-     authorParameter.Value = this.GetAuthor();
-     SqlParameter readBoolParameter = new SqlParameter();
-     readBoolParameter.Value = this.GetReadBool();
-     readBoolParameter.ParameterName = "@BookReadBool";
-     cmd.Parameters.Add(titleParameter);
-     cmd.Parameters.Add(authorParameter);
-     cmd.Parameters.Add(readBoolParameter);
-     rdr = cmd.ExecuteReader();
-     while (rdr.Read())
-     {
-       this._id = rdr.GetInt32(0);
-     }
-     if (rdr != null)
-     {
-       rdr.Close();
-     }
-     if (conn != null)
-     {
-       conn.Close();
-     }
-   }
-
-   public static Books Find (int queryBooksId)
-    {
-      List<Books> allBooks = new List<Books> {};
-      SqlConnection conn = DB.Connection();
-      conn.Open();
-      SqlDataReader rdr = null;
-      SqlCommand cmd = new SqlCommand ("SELECT * FROM all_books WHERE id = @BookId;", conn);
-      SqlParameter booksIdParameter = new SqlParameter ();
-      booksIdParameter.ParameterName = "@BookId";
-      booksIdParameter.Value = queryBooksId;
-      cmd.Parameters.Add(booksIdParameter);
-      rdr = cmd.ExecuteReader();
-      while (rdr.Read())
-      {
-        int booksId = rdr.GetInt32(0);
-        string booksTitle = rdr.GetString(1);
-        string booksAuthor = rdr.GetString(2);
-        bool booksReadBool = rdr.GetBoolean(3);
-        Books newBooks = new Books (booksTitle, booksAuthor, booksReadBool, booksId);
-        allBooks.Add(newBooks);
-      }
-      if (rdr != null)
-      {
-        rdr.Close();
-      }
-      if (conn != null)
-      {
-        conn.Close();
-      }
-      return allBooks[0];
-    }
-
-    public void DeleteThis()
-    {
-      SqlConnection conn = DB.Connection();
-      conn.Open();
-      SqlCommand cmd = new SqlCommand ("DELETE FROM all_books WHERE id = @BookId;", conn);
-      SqlParameter booksIdParameter = new SqlParameter ();
-      booksIdParameter.ParameterName = "@BookId";
-      booksIdParameter.Value = this.GetId();
-      cmd.Parameters.Add(booksIdParameter);
-      cmd.ExecuteNonQuery();
-    }
+    // public void Save()
+    // {
+    //   SqlConnection conn = DB.Connection();
+    //   conn.Open();
+    //   SqlDataReader rdr = null;
+    //   SqlCommand cmd = new SqlCommand ("INSERT INTO all_books (title, author, read_bool) OUTPUT INSERTED.id VALUES (@BookTitle, @BookAuthor, @BookReadBool);", conn);
+    //   SqlParameter titleParameter = new SqlParameter();
+    //   titleParameter.ParameterName = "@BookTitle";
+    //   titleParameter.Value = this.GetTitle();
+    //   SqlParameter authorParameter = new SqlParameter();
+    //   authorParameter.ParameterName = "@BookAuthor";
+    //   authorParameter.Value = this.GetAuthor();
+    //   SqlParameter readBoolParameter = new SqlParameter();
+    //   readBoolParameter.Value = this.GetReadBool();
+    //   readBoolParameter.ParameterName = "@BookReadBool";
+    //   cmd.Parameters.Add(titleParameter);
+    //   cmd.Parameters.Add(authorParameter);
+    //   cmd.Parameters.Add(readBoolParameter);
+    //   rdr = cmd.ExecuteReader();
+    //   while (rdr.Read())
+    //   {
+    //    this._id = rdr.GetInt32(0);
+    //   }
+    //   if (rdr != null)
+    //   {
+    //    rdr.Close();
+    //   }
+    //   if (conn != null)
+    //   {
+    //    conn.Close();
+    //   }
+    // }
+    //
+    // public static Books Find (int queryBooksId)
+    // {
+    //   List<Books> allBooks = new List<Books> {};
+    //   SqlConnection conn = DB.Connection();
+    //   conn.Open();
+    //   SqlDataReader rdr = null;
+    //   SqlCommand cmd = new SqlCommand ("SELECT * FROM all_books WHERE id = @BookId;", conn);
+    //   SqlParameter booksIdParameter = new SqlParameter ();
+    //   booksIdParameter.ParameterName = "@BookId";
+    //   booksIdParameter.Value = queryBooksId;
+    //   cmd.Parameters.Add(booksIdParameter);
+    //   rdr = cmd.ExecuteReader();
+    //   while (rdr.Read())
+    //   {
+    //     int booksId = rdr.GetInt32(0);
+    //     string booksTitle = rdr.GetString(1);
+    //     string booksAuthor = rdr.GetString(2);
+    //     bool booksReadBool = rdr.GetBoolean(3);
+    //     Books newBooks = new Books (booksTitle, booksAuthor, booksReadBool, booksId);
+    //     allBooks.Add(newBooks);
+    //   }
+    //   if (rdr != null)
+    //   {
+    //     rdr.Close();
+    //   }
+    //   if (conn != null)
+    //   {
+    //     conn.Close();
+    //   }
+    //   return allBooks[0];
+    // }
+    //
+    // public void DeleteThis()
+    // {
+    //   SqlConnection conn = DB.Connection();
+    //   conn.Open();
+    //   SqlCommand cmd = new SqlCommand ("DELETE FROM all_books WHERE id = @BookId;", conn);
+    //   SqlParameter booksIdParameter = new SqlParameter ();
+    //   booksIdParameter.ParameterName = "@BookId";
+    //   booksIdParameter.Value = this.GetId();
+    //   cmd.Parameters.Add(booksIdParameter);
+    //   cmd.ExecuteNonQuery();
+    // }
 
     public static void DeleteAll()
     {
