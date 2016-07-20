@@ -70,39 +70,31 @@ namespace HomeLibrary
       return allCategories;
     }
 
-    // public void Save()
-    // {
-    //   SqlConnection conn = DB.Connection();
-    //   conn.Open();
-    //   SqlDataReader rdr = null;
-    //   SqlCommand cmd = new SqlCommand ("INSERT INTO owned_books (book_id, physical_bool, storage_id) OUTPUT INSERTED.id VALUES (@OwnedBookBookId, @OwnedBookPhysicalBool, @OwnedBookStorageId);", conn);
-    //   SqlParameter bookIdParameter = new SqlParameter();
-    //   bookIdParameter.ParameterName = "@OwnedBookBookId";
-    //   bookIdParameter.Value = this.GetBookId();
-    //   SqlParameter physicalBoolParameter = new SqlParameter();
-    //   physicalBoolParameter.ParameterName = "@OwnedBookPhysicalBool";
-    //   physicalBoolParameter.Value = this.GetIsPhysical();
-    //   SqlParameter storageIdParameter = new SqlParameter();
-    //   storageIdParameter.Value = this.GetStorageId();
-    //   storageIdParameter.ParameterName = "@OwnedBookStorageId";
-    //   cmd.Parameters.Add(bookIdParameter);
-    //   cmd.Parameters.Add(physicalBoolParameter);
-    //   cmd.Parameters.Add(storageIdParameter);
-    //   rdr = cmd.ExecuteReader();
-    //   while (rdr.Read())
-    //   {
-    //    this._id = rdr.GetInt32(0);
-    //   }
-    //   if (rdr != null)
-    //   {
-    //    rdr.Close();
-    //   }
-    //   if (conn != null)
-    //   {
-    //    conn.Close();
-    //   }
-    // }
-    //
+    public void Save()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+      SqlDataReader rdr = null;
+      SqlCommand cmd = new SqlCommand ("INSERT INTO categories (genre) OUTPUT INSERTED.id VALUES (@CategoryGenre);", conn);
+      SqlParameter genreParameter = new SqlParameter();
+      genreParameter.ParameterName = "@CategoryGenre";
+      genreParameter.Value = this.GetGenre();
+      cmd.Parameters.Add(genreParameter);
+      rdr = cmd.ExecuteReader();
+      while (rdr.Read())
+      {
+       this._id = rdr.GetInt32(0);
+      }
+      if (rdr != null)
+      {
+       rdr.Close();
+      }
+      if (conn != null)
+      {
+       conn.Close();
+      }
+    }
+
     // public static OwnedBooks Find (int queryOwnedBooksBookId)
     // {
     //   List<OwnedBooks> allOwnedBooks = new List<OwnedBooks> {};
