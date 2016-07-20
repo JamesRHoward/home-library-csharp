@@ -8,7 +8,7 @@ namespace HomeLibrary
 {
   public class OwnedBooksTest : IDisposable
   {
-    public BooksTest()
+    public OwnedBooksTest()
     {
       DBConfiguration.ConnectionString = "Data Source=(localdb)\\mssqllocaldb;Initial Catalog=home_library_test;Integrated Security=SSPI;";
     }

@@ -53,11 +53,11 @@ namespace HomeLibrary
     {
       if (otherOwnedBooks is OwnedBooks)
       {
-       Books newBooks = (Books) otherBooks;
-       bool idEquality = (this.GetId() == newBooks.GetId());
-       bool bookIdEquality = (this.GetBookId() == newBooks.GetBookId());
-       bool isPhysicalEquality = (this.GetIsPhysical() == newBooks.GetIsPhysical());
-       bool storageIdEquality = (this.GetStorageId() == newBooks.GetStorageId());
+       OwnedBooks newOwnedBooks = (OwnedBooks) otherOwnedBooks;
+       bool idEquality = (this.GetId() == newOwnedBooks.GetId());
+       bool bookIdEquality = (this.GetBookId() == newOwnedBooks.GetBookId());
+       bool isPhysicalEquality = (this.GetIsPhysical() == newOwnedBooks.GetIsPhysical());
+       bool storageIdEquality = (this.GetStorageId() == newOwnedBooks.GetStorageId());
        return (idEquality && bookIdEquality && isPhysicalEquality && storageIdEquality);
       }
       else
@@ -68,20 +68,20 @@ namespace HomeLibrary
 
     public static List<OwnedBooks> GetAll()
     {
-      List<Books> allBooks = new List<Books>{};
+      List<OwnedBooks> allOwnedBooks = new List<OwnedBooks>{};
       SqlConnection conn = DB.Connection();
       SqlDataReader rdr = null;
       conn.Open();
-      SqlCommand cmd = new SqlCommand("SELECT * FROM all_books ORDER by title ASC;", conn);
+      SqlCommand cmd = new SqlCommand("SELECT * FROM owned_books;", conn);
       rdr = cmd.ExecuteReader();
       while (rdr.Read())
       {
-        int booksId = rdr.GetInt32(0);
-        string booksTitle = rdr.GetString(1);
-        string booksAuthor = rdr.GetString(2);
-        bool booksReadBool = rdr.GetBoolean(3);
-        Books newBooks = new Books(booksTitle, booksAuthor, booksReadBool, booksId);
-        allBooks.Add(newBooks);
+        int ownedBooksId = rdr.GetInt32(0);
+        int ownedBooksBookId = rdr.GetInt32(1);
+        bool ownedBooksIsPhysical = rdr.GetBoolean(2);
+        int ownedBooksStorageId = rdr.GetInt32(3);
+        OwnedBooks newOwnedBook = new OwnedBooks (ownedBooksBookId, ownedBooksIsPhysical, ownedBooksStorageId, ownedBooksId);
+        allOwnedBooks.Add(newOwnedBook);
       }
       if (rdr != null)
       {
@@ -91,7 +91,7 @@ namespace HomeLibrary
       {
         conn.Close();
       }
-      return allBooks;
+      return allOwnedBooks;
     }
 
     // public void Save()
