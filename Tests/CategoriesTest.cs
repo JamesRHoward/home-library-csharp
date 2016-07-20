@@ -22,15 +22,11 @@ namespace HomeLibrary
     [Fact]
     public void Test_Equals_SameEntriesMatch()
     {
-      Books firstBook = new Books ("The Hobbit", "JRR Tolkien", true);
-      firstBook.Save();
-      List<Books> testBooksList = Books.GetAll();
-      Books testBook = testBooksList[0];
-      OwnedBooks firstOwnedBook = new OwnedBooks (testBook.GetId());
-      OwnedBooks secondOwnedBook = new OwnedBooks (testBook.GetId());
-      Assert.Equal(firstOwnedBook, secondOwnedBook);
+      Categories firstCategory = new Categories("romance");
+      Categories secondCategory = new Categories("romance");
+      Assert.Equal(firstCategory, secondCategory);
     }
-    // [Fact]
+    [Fact]
     // public void Test_Save_SavesOwnedBookToDatabase()
     // {
     //   Books bookToSave = new Books ("Mastery", "Robert Greene");
