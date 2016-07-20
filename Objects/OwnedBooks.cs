@@ -159,17 +159,17 @@ namespace HomeLibrary
       return allOwnedBooks[0];
     }
 
-    // public void DeleteThis()
-    // {
-    //   SqlConnection conn = DB.Connection();
-    //   conn.Open();
-    //   SqlCommand cmd = new SqlCommand ("DELETE FROM all_books WHERE id = @BookId;", conn);
-    //   SqlParameter booksIdParameter = new SqlParameter ();
-    //   booksIdParameter.ParameterName = "@BookId";
-    //   booksIdParameter.Value = this.GetId();
-    //   cmd.Parameters.Add(booksIdParameter);
-    //   cmd.ExecuteNonQuery();
-    // }
+    public void DeleteThis()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+      SqlCommand cmd = new SqlCommand ("DELETE FROM owned_books WHERE id = @BookId;", conn);
+      SqlParameter ownedBooksIdParameter = new SqlParameter ();
+      ownedBooksIdParameter.ParameterName = "@BookId";
+      ownedBooksIdParameter.Value = this.GetId();
+      cmd.Parameters.Add(ownedBooksIdParameter);
+      cmd.ExecuteNonQuery();
+    }
 
     public static void DeleteAll()
     {

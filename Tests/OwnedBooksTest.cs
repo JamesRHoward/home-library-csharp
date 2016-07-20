@@ -52,18 +52,24 @@ namespace HomeLibrary
       OwnedBooks testOwnedBook = OwnedBooks.Find(bookIdToSearchBy);
       Assert.Equal(OwnedBooks.GetAll()[0], testOwnedBook);
     }
-    // [Fact]
-    // public void Test_DeleteThis_RemoveSelectedBookFromDataBase()
-    // {
-    //   Books firstBook = new Books ("The Fellowship of the Ring", "JRR Tolkien");
-    //   firstBook.Save();
-    //   Books secondBook = new Books ("The Two Towers", "JRR Tolkien");
-    //   secondBook.Save();
-    //   List<Books> expectedBooksList = new List<Books> {secondBook};
-    //   firstBook.DeleteThis();
-    //   List<Books> result = Books.GetAll();
-    //   Assert.Equal(expectedBooksList, result);
-    // }
+    [Fact]
+    public void Test_DeleteThis_RemoveSelectedBookFromDataBase()
+    {
+      Books firstBook = new Books ("The Fellowship of the Ring", "JRR Tolkien");
+      firstBook.Save();
+      Books secondBook = new Books ("The Two Towers", "JRR Tolkien");
+      secondBook.Save();
+      List<Books> testBooksList = new List<Books> {secondBook};
+      Books testBook = testBooksList[0];
+      OwnedBooks testOwnedBook = new OwnedBooks (testBook.GetId());
+      testOwnedBook.Save();
+      int countAfterSave = OwnedBooks.GetAll().Count;
+      testOwnedBook.DeleteThis();
+      int countAfterDeleteThis = OwnedBooks.GetAll().Count;
+      int[] expected = { 1, 0 };
+      int[] result = { countAfterSave, countAfterDeleteThis };
+      Assert.Equal(expected, result);
+    }
     public void Dispose()
     {
       Books.DeleteAll();
