@@ -27,25 +27,24 @@ namespace HomeLibrary
       Assert.Equal(firstCategory, secondCategory);
     }
     [Fact]
-    public void Test_Save_SavesOwnedBookToDatabase()
+    public void Test_Save_SavesCategoryToDatabase()
     {
       Categories testCategory = new Categories("horror");
       testCategory.Save();
       Assert.Equal(1, Categories.GetAll().Count);
     }
-    // [Fact]
-    // public void Test_Find_ReturnsOwnedBooksByBooksIdNumber()
-    // {
-    //   Books bookToSave = new Books ("Mastery", "Robert Greene");
-    //   bookToSave.Save();
-    //   Books notherBookToSave = new Books ("To Be the Man", "Ric Flair");
-    //   notherBookToSave.Save();
-    //   int bookIdToSearchBy = Books.GetAll()[0].GetId();
-    //   OwnedBooks ownedBookToSave = new OwnedBooks(bookIdToSearchBy);
-    //   ownedBookToSave.Save();
-    //   OwnedBooks testOwnedBook = OwnedBooks.Find(bookIdToSearchBy);
-    //   Assert.Equal(OwnedBooks.GetAll()[0], testOwnedBook);
-    // }
+    [Fact]
+    public void Test_Find_ReturnsCategoryById()
+    {
+      Categories testCategory = new Categories("horror");
+      testCategory.Save();
+      Categories notherTestCategory = new Categories("graphic novel");
+      testCategory.Save();
+      notherTestCategory.Save();
+      int idToSearchBy = notherTestCategory.GetId();
+      Categories resultCategory = Categories.Find(idToSearchBy);
+      Assert.Equal(notherTestCategory, resultCategory);
+    }
     // [Fact]
     // public void Test_DeleteThis_RemoveSelectedBookFromDataBase()
     // {
@@ -66,8 +65,7 @@ namespace HomeLibrary
     // }
     public void Dispose()
     {
-      Books.DeleteAll();
-      OwnedBooks.DeleteAll();
+      Categories.DeleteAll();
     }
   }
 }

@@ -95,38 +95,36 @@ namespace HomeLibrary
       }
     }
 
-    // public static OwnedBooks Find (int queryOwnedBooksBookId)
-    // {
-    //   List<OwnedBooks> allOwnedBooks = new List<OwnedBooks> {};
-    //   SqlConnection conn = DB.Connection();
-    //   conn.Open();
-    //   SqlDataReader rdr = null;
-    //   SqlCommand cmd = new SqlCommand ("SELECT * FROM owned_books WHERE book_id = @OwnedBookBookId;", conn);
-    //   SqlParameter ownedBooksIdParameter = new SqlParameter ();
-    //   ownedBooksIdParameter.ParameterName = "@OwnedBookBookId";
-    //   ownedBooksIdParameter.Value = queryOwnedBooksBookId;
-    //   cmd.Parameters.Add(ownedBooksIdParameter);
-    //   rdr = cmd.ExecuteReader();
-    //   while (rdr.Read())
-    //   {
-    //     int ownedBooksId = rdr.GetInt32(0);
-    //     int ownedBooksBookId = rdr.GetInt32(1);
-    //     bool ownedBooksIsPhysical = rdr.GetBoolean(2);
-    //     int ownedBooksStorageId = rdr.GetInt32(3);
-    //     OwnedBooks newOwnedBooks = new OwnedBooks (ownedBooksBookId, ownedBooksIsPhysical, ownedBooksStorageId, ownedBooksId);
-    //     allOwnedBooks.Add(newOwnedBooks);
-    //   }
-    //   if (rdr != null)
-    //   {
-    //     rdr.Close();
-    //   }
-    //   if (conn != null)
-    //   {
-    //     conn.Close();
-    //   }
-    //   return allOwnedBooks[0];
-    // }
-    //
+    public static Categories Find (int queryCategoryId)
+    {
+      List<Categories> allCategories = new List<Categories> {};
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+      SqlDataReader rdr = null;
+      SqlCommand cmd = new SqlCommand ("SELECT * FROM categories WHERE id = @CategoryId;", conn);
+      SqlParameter genreParameter = new SqlParameter ();
+      genreParameter.ParameterName = "@CategoryId";
+      genreParameter.Value = queryCategoryId;
+      cmd.Parameters.Add(genreParameter);
+      rdr = cmd.ExecuteReader();
+      while (rdr.Read())
+      {
+        int id = rdr.GetInt32(0);
+        string genre = rdr.GetString(1);
+        Categories newCategories = new Categories (genre, id);
+        allCategories.Add(newCategories);
+      }
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+      return allCategories[0];
+    }
+
     // public void DeleteThis()
     // {
     //   SqlConnection conn = DB.Connection();
@@ -139,13 +137,13 @@ namespace HomeLibrary
     //   cmd.ExecuteNonQuery();
     // }
     //
-    // public static void DeleteAll()
-    // {
-    //   SqlConnection conn = DB.Connection();
-    //   conn.Open();
-    //   SqlCommand cmd = new SqlCommand ("DELETE FROM owned_books;", conn);
-    //   cmd.ExecuteNonQuery();
-    // }
+    public static void DeleteAll()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+      SqlCommand cmd = new SqlCommand ("DELETE FROM categories;", conn);
+      cmd.ExecuteNonQuery();
+    }
 
   }
 }
