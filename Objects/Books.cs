@@ -20,6 +20,26 @@ namespace HomeLibrary
       _readBool = readBool;
     }
 
+    public void AddCategory (Categories newCategory)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+      SqlCommand cmd = new SqlCommand ("INSERT INTO books_categories (book_id, category_id) VALUES (@BookId, @CategoryId);", conn);
+      SqlParameter bookIdParameter = new SqlParameter();
+      bookIdParameter.ParameterName = "@BookId";
+      bookIdParameter.Value = this.GetId();
+      SqlParameter categoryIdParameter = new SqlParameter ();
+      categoryIdParameter.ParameterName = "@CategoryId";
+      categoryIdParameter.Value = newCategory.GetId();
+      cmd.Parameters.Add(bookIdParameter);
+      cmd.Parameters.Add(categoryIdParameter);
+      cmd.ExecuteNonQuery();
+      if (conn != null)
+      {
+        conn.Close();
+      }
+    }
+
     public void SetTitle(string title)
     {
       _title = title;
@@ -179,6 +199,41 @@ namespace HomeLibrary
       conn.Open();
       SqlCommand cmd = new SqlCommand ("DELETE FROM all_books;", conn);
       cmd.ExecuteNonQuery();
+    }
+
+    public List<Categories> GetCategories()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("SELECT categories.* FROM all_books JOIN books_categories ON (all_books.id = books_categories.book_id) JOIN categories ON (books_categories.category_id = categories.id) WHERE all_books.id = @BookId;", conn);
+      SqlParameter BookIdParameter = new SqlParameter();
+      BookIdParameter.ParameterName = "@BookId";
+      BookIdParameter.Value = this.GetId().ToString();
+
+      cmd.Parameters.Add(BookIdParameter);
+
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      List<Categories> categories = new List<Categories>{};
+
+      while(rdr.Read())
+      {
+        int categoryId = rdr.GetInt32(0);
+        string categoryGenre = rdr.GetString(1);
+        Categories newCategories = new Categories(categoryGenre, categoryId);
+        categories.Add(newCategories);
+      }
+
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+      return categories;
     }
 
   }
