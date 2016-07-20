@@ -125,18 +125,18 @@ namespace HomeLibrary
       return allCategories[0];
     }
 
-    // public void DeleteThis()
-    // {
-    //   SqlConnection conn = DB.Connection();
-    //   conn.Open();
-    //   SqlCommand cmd = new SqlCommand ("DELETE FROM owned_books WHERE id = @BookId;", conn);
-    //   SqlParameter ownedBooksIdParameter = new SqlParameter ();
-    //   ownedBooksIdParameter.ParameterName = "@BookId";
-    //   ownedBooksIdParameter.Value = this.GetId();
-    //   cmd.Parameters.Add(ownedBooksIdParameter);
-    //   cmd.ExecuteNonQuery();
-    // }
-    //
+    public void DeleteThis()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+      SqlCommand cmd = new SqlCommand ("DELETE FROM categories WHERE id = @CategoryId;", conn);
+      SqlParameter idParameter = new SqlParameter ();
+      idParameter.ParameterName = "@CategoryId";
+      idParameter.Value = this.GetId();
+      cmd.Parameters.Add(idParameter);
+      cmd.ExecuteNonQuery();
+    }
+
     public static void DeleteAll()
     {
       SqlConnection conn = DB.Connection();
