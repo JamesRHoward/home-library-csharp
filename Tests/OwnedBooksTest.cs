@@ -30,24 +30,28 @@ namespace HomeLibrary
       OwnedBooks secondOwnedBook = new OwnedBooks (testBook.GetId());
       Assert.Equal(firstOwnedBook, secondOwnedBook);
     }
-    // [Fact]
-    // public void Test_Save_SavesBookToDatabase()
-    // {
-    //   Books bookToSave = new Books ("Mastery", "Robert Greene");
-    //   bookToSave.Save();
-    //   Assert.Equal(bookToSave, Books.GetAll()[0]);
-    //   Assert.Equal(1, Books.GetAll().Count);
-    // }
-    // [Fact]
-    // public void Test_Find_ReturnsBooksByBooksNumber()
-    // {
-    //   Books firstBook = new Books ("The Fellowship of the Ring", "JRR Tolkien");
-    //   firstBook.Save();
-    //   Books secondBook = new Books ("The Two Towers", "JRR Tolkien");
-    //   secondBook.Save();
-    //   Books foundBook = Books.Find(firstBook.GetId());
-    //   Assert.Equal(firstBook, foundBook);
-    // }
+    [Fact]
+    public void Test_Save_SavesOwnedBookToDatabase()
+    {
+      Books bookToSave = new Books ("Mastery", "Robert Greene");
+      bookToSave.Save();
+      OwnedBooks ownedBookToSave = new OwnedBooks(Books.GetAll()[0].GetId());
+      ownedBookToSave.Save();
+      Assert.Equal(1, OwnedBooks.GetAll().Count);
+    }
+    [Fact]
+    public void Test_Find_ReturnsOwnedBooksByBooksIdNumber()
+    {
+      Books bookToSave = new Books ("Mastery", "Robert Greene");
+      bookToSave.Save();
+      Books notherBookToSave = new Books ("To Be the Man", "Ric Flair");
+      notherBookToSave.Save();
+      int bookIdToSearchBy = Books.GetAll()[0].GetId();
+      OwnedBooks ownedBookToSave = new OwnedBooks(bookIdToSearchBy);
+      ownedBookToSave.Save();
+      OwnedBooks testOwnedBook = OwnedBooks.Find(bookIdToSearchBy);
+      Assert.Equal(OwnedBooks.GetAll()[0], testOwnedBook);
+    }
     // [Fact]
     // public void Test_DeleteThis_RemoveSelectedBookFromDataBase()
     // {
@@ -63,6 +67,7 @@ namespace HomeLibrary
     public void Dispose()
     {
       Books.DeleteAll();
+      OwnedBooks.DeleteAll();
     }
   }
 }

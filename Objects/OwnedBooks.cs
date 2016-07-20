@@ -94,71 +94,71 @@ namespace HomeLibrary
       return allOwnedBooks;
     }
 
-    // public void Save()
-    // {
-    //   SqlConnection conn = DB.Connection();
-    //   conn.Open();
-    //   SqlDataReader rdr = null;
-    //   SqlCommand cmd = new SqlCommand ("INSERT INTO all_books (title, author, read_bool) OUTPUT INSERTED.id VALUES (@BookTitle, @BookAuthor, @BookReadBool);", conn);
-    //   SqlParameter titleParameter = new SqlParameter();
-    //   titleParameter.ParameterName = "@BookTitle";
-    //   titleParameter.Value = this.GetTitle();
-    //   SqlParameter authorParameter = new SqlParameter();
-    //   authorParameter.ParameterName = "@BookAuthor";
-    //   authorParameter.Value = this.GetAuthor();
-    //   SqlParameter readBoolParameter = new SqlParameter();
-    //   readBoolParameter.Value = this.GetReadBool();
-    //   readBoolParameter.ParameterName = "@BookReadBool";
-    //   cmd.Parameters.Add(titleParameter);
-    //   cmd.Parameters.Add(authorParameter);
-    //   cmd.Parameters.Add(readBoolParameter);
-    //   rdr = cmd.ExecuteReader();
-    //   while (rdr.Read())
-    //   {
-    //    this._id = rdr.GetInt32(0);
-    //   }
-    //   if (rdr != null)
-    //   {
-    //    rdr.Close();
-    //   }
-    //   if (conn != null)
-    //   {
-    //    conn.Close();
-    //   }
-    // }
-    //
-    // public static Books Find (int queryBooksId)
-    // {
-    //   List<Books> allBooks = new List<Books> {};
-    //   SqlConnection conn = DB.Connection();
-    //   conn.Open();
-    //   SqlDataReader rdr = null;
-    //   SqlCommand cmd = new SqlCommand ("SELECT * FROM all_books WHERE id = @BookId;", conn);
-    //   SqlParameter booksIdParameter = new SqlParameter ();
-    //   booksIdParameter.ParameterName = "@BookId";
-    //   booksIdParameter.Value = queryBooksId;
-    //   cmd.Parameters.Add(booksIdParameter);
-    //   rdr = cmd.ExecuteReader();
-    //   while (rdr.Read())
-    //   {
-    //     int booksId = rdr.GetInt32(0);
-    //     string booksTitle = rdr.GetString(1);
-    //     string booksAuthor = rdr.GetString(2);
-    //     bool booksReadBool = rdr.GetBoolean(3);
-    //     Books newBooks = new Books (booksTitle, booksAuthor, booksReadBool, booksId);
-    //     allBooks.Add(newBooks);
-    //   }
-    //   if (rdr != null)
-    //   {
-    //     rdr.Close();
-    //   }
-    //   if (conn != null)
-    //   {
-    //     conn.Close();
-    //   }
-    //   return allBooks[0];
-    // }
-    //
+    public void Save()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+      SqlDataReader rdr = null;
+      SqlCommand cmd = new SqlCommand ("INSERT INTO owned_books (book_id, physical_bool, storage_id) OUTPUT INSERTED.id VALUES (@OwnedBookBookId, @OwnedBookPhysicalBool, @OwnedBookStorageId);", conn);
+      SqlParameter bookIdParameter = new SqlParameter();
+      bookIdParameter.ParameterName = "@OwnedBookBookId";
+      bookIdParameter.Value = this.GetBookId();
+      SqlParameter physicalBoolParameter = new SqlParameter();
+      physicalBoolParameter.ParameterName = "@OwnedBookPhysicalBool";
+      physicalBoolParameter.Value = this.GetIsPhysical();
+      SqlParameter storageIdParameter = new SqlParameter();
+      storageIdParameter.Value = this.GetStorageId();
+      storageIdParameter.ParameterName = "@OwnedBookStorageId";
+      cmd.Parameters.Add(bookIdParameter);
+      cmd.Parameters.Add(physicalBoolParameter);
+      cmd.Parameters.Add(storageIdParameter);
+      rdr = cmd.ExecuteReader();
+      while (rdr.Read())
+      {
+       this._id = rdr.GetInt32(0);
+      }
+      if (rdr != null)
+      {
+       rdr.Close();
+      }
+      if (conn != null)
+      {
+       conn.Close();
+      }
+    }
+
+    public static OwnedBooks Find (int queryOwnedBooksBookId)
+    {
+      List<OwnedBooks> allOwnedBooks = new List<OwnedBooks> {};
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+      SqlDataReader rdr = null;
+      SqlCommand cmd = new SqlCommand ("SELECT * FROM owned_books WHERE book_id = @OwnedBookBookId;", conn);
+      SqlParameter ownedBooksIdParameter = new SqlParameter ();
+      ownedBooksIdParameter.ParameterName = "@OwnedBookBookId";
+      ownedBooksIdParameter.Value = queryOwnedBooksBookId;
+      cmd.Parameters.Add(ownedBooksIdParameter);
+      rdr = cmd.ExecuteReader();
+      while (rdr.Read())
+      {
+        int ownedBooksId = rdr.GetInt32(0);
+        int ownedBooksBookId = rdr.GetInt32(1);
+        bool ownedBooksIsPhysical = rdr.GetBoolean(2);
+        int ownedBooksStorageId = rdr.GetInt32(3);
+        OwnedBooks newOwnedBooks = new OwnedBooks (ownedBooksBookId, ownedBooksIsPhysical, ownedBooksStorageId, ownedBooksId);
+        allOwnedBooks.Add(newOwnedBooks);
+      }
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+      return allOwnedBooks[0];
+    }
+
     // public void DeleteThis()
     // {
     //   SqlConnection conn = DB.Connection();
@@ -175,7 +175,7 @@ namespace HomeLibrary
     {
       SqlConnection conn = DB.Connection();
       conn.Open();
-      SqlCommand cmd = new SqlCommand ("DELETE FROM all_books;", conn);
+      SqlCommand cmd = new SqlCommand ("DELETE FROM owned_books;", conn);
       cmd.ExecuteNonQuery();
     }
 
