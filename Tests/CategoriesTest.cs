@@ -27,14 +27,12 @@ namespace HomeLibrary
       Assert.Equal(firstCategory, secondCategory);
     }
     [Fact]
-    // public void Test_Save_SavesOwnedBookToDatabase()
-    // {
-    //   Books bookToSave = new Books ("Mastery", "Robert Greene");
-    //   bookToSave.Save();
-    //   OwnedBooks ownedBookToSave = new OwnedBooks(Books.GetAll()[0].GetId());
-    //   ownedBookToSave.Save();
-    //   Assert.Equal(1, OwnedBooks.GetAll().Count);
-    // }
+    public void Test_Save_SavesOwnedBookToDatabase()
+    {
+      Categories testCategory = new Categories("horror");
+      testCategory.Save();
+      Assert.Equal(1, Categories.GetAll().Count);
+    }
     // [Fact]
     // public void Test_Find_ReturnsOwnedBooksByBooksIdNumber()
     // {
