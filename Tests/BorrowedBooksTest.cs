@@ -67,7 +67,7 @@ namespace HomeLibrary
       Assert.Equal(expected, result);
     }
     [Fact]
-    public void Test_SellBook_ChangeReturnedBoolBooleanToTrue()
+    public void Test_ReturnBook_ChangeReturnedBoolBooleanToTrue()
     {
       BorrowedBooks testBorrowedBooks = new BorrowedBooks (1, 1);
       testBorrowedBooks.Save();

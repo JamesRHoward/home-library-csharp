@@ -179,5 +179,37 @@ namespace HomeLibrary
       cmd.ExecuteNonQuery();
     }
 
+    public void UpdateStorageLocation(int storageId)
+    {
+      SqlConnection conn = DB.Connection();
+      SqlDataReader rdr;
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("UPDATE owned_books SET storage_id = @OwnedBooksStorageId OUTPUT INSERTED.storage_id WHERE id = @OwnedBooksId;", conn);
+
+      SqlParameter updateStorageIdParameter = new SqlParameter();
+      updateStorageIdParameter.ParameterName = "@OwnedBooksStorageId";
+      updateStorageIdParameter.Value = storageId;
+      cmd.Parameters.Add(updateStorageIdParameter);
+
+      SqlParameter ownedBooksIdParameter = new SqlParameter();
+      ownedBooksIdParameter.ParameterName = "@OwnedBooksId";
+      ownedBooksIdParameter.Value = this.GetId();
+      cmd.Parameters.Add(ownedBooksIdParameter);
+      rdr = cmd.ExecuteReader();
+
+      while(rdr.Read())
+      {
+        this._storageId = rdr.GetInt32(0);
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+    }
   }
 }

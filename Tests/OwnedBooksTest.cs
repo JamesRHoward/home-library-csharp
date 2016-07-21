@@ -70,6 +70,17 @@ namespace HomeLibrary
       int[] result = { countAfterSave, countAfterDeleteThis };
       Assert.Equal(expected, result);
     }
+    [Fact]
+    public void Test_UpdateStorageLocation_UpdatesBooksStorageId()
+    {
+      Books firstBook = new Books ("The Fellowship of the Ring", "JRR Tolkien");
+      firstBook.Save();
+      OwnedBooks firstOwnedBook = new OwnedBooks(firstBook.GetId());
+      firstOwnedBook.Save();
+      firstOwnedBook.UpdateStorageLocation(23);
+      int result = OwnedBooks.GetAll()[0].GetStorageId();
+      Assert.Equal(23, result);
+    }
     public void Dispose()
     {
       Books.DeleteAll();
