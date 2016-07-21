@@ -105,40 +105,44 @@ namespace HomeLibrary
       }
       return allBorrowedBooks;
     }
-    //
-    // public void Save()
-    // {
-    //   SqlConnection conn = DB.Connection();
-    //   conn.Open();
-    //   SqlDataReader rdr = null;
-    //   SqlCommand cmd = new SqlCommand ("INSERT INTO borrowed_books (owned_book_id, returned_bool, recipient) OUTPUT INSERTED.id VALUES (@BorrowedBookBookId, @BorrowedBookReturnedBool, @BorrowedBookRecipient);", conn);
-    //   SqlParameter ownedBookIdParameter = new SqlParameter();
-    //   ownedBookIdParameter.ParameterName = "@BorrowedBookBookId";
-    //   ownedBookIdParameter.Value = this.GetBookId();
-    //   SqlParameter physicalBoolParameter = new SqlParameter();
-    //   physicalBoolParameter.ParameterName = "@BorrowedBookReturnedBool";
-    //   physicalBoolParameter.Value = this.GetReturnedBool();
-    //   SqlParameter recipientParameter = new SqlParameter();
-    //   recipientParameter.Value = this.GetRecipient();
-    //   recipientParameter.ParameterName = "@BorrowedBookRecipient";
-    //   cmd.Parameters.Add(ownedBookIdParameter);
-    //   cmd.Parameters.Add(physicalBoolParameter);
-    //   cmd.Parameters.Add(recipientParameter);
-    //   rdr = cmd.ExecuteReader();
-    //   while (rdr.Read())
-    //   {
-    //    this._id = rdr.GetInt32(0);
-    //   }
-    //   if (rdr != null)
-    //   {
-    //    rdr.Close();
-    //   }
-    //   if (conn != null)
-    //   {
-    //    conn.Close();
-    //   }
-    // }
-    //
+
+    public void Save()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+      SqlDataReader rdr = null;
+      SqlCommand cmd = new SqlCommand ("INSERT INTO borrowed_books (book_id, returned_bool, source_id, due_date) OUTPUT INSERTED.id VALUES (@BorrowedBooksBookId, @BorrowedBooksReturnedBool, @BorrowedBooksRecipient, @BorrowedBooksDueDate);", conn);
+      SqlParameter ownedBookIdParameter = new SqlParameter();
+      ownedBookIdParameter.ParameterName = "@BorrowedBooksBookId";
+      ownedBookIdParameter.Value = this.GetBookId();
+      SqlParameter physicalBoolParameter = new SqlParameter();
+      physicalBoolParameter.ParameterName = "@BorrowedBooksReturnedBool";
+      physicalBoolParameter.Value = this.GetReturnedBool();
+      SqlParameter recipientParameter = new SqlParameter();
+      recipientParameter.Value = this.GetSourceId();
+      recipientParameter.ParameterName = "@BorrowedBooksRecipient";
+      SqlParameter dueDateParameter = new SqlParameter();
+      dueDateParameter.Value = this.GetSourceId();
+      dueDateParameter.ParameterName = "@BorrowedBooksDueDate";
+      cmd.Parameters.Add(ownedBookIdParameter);
+      cmd.Parameters.Add(physicalBoolParameter);
+      cmd.Parameters.Add(recipientParameter);
+      cmd.Parameters.Add(dueDateParameter);
+      rdr = cmd.ExecuteReader();
+      while (rdr.Read())
+      {
+       this._id = rdr.GetInt32(0);
+      }
+      if (rdr != null)
+      {
+       rdr.Close();
+      }
+      if (conn != null)
+      {
+       conn.Close();
+      }
+    }
+
     // public void Update(bool isReturned)
     // {
     //   SqlConnection conn = DB.Connection();

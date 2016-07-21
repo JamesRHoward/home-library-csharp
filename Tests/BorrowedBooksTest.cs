@@ -26,13 +26,13 @@ namespace HomeLibrary
       BorrowedBooks secondBorrowedBooks = new BorrowedBooks(1, 1);
       Assert.Equal(firstBorrowedBooks, secondBorrowedBooks);
     }
-    // [Fact]
-    // public void Test_Save_SavesBorrowedBooksToDatabase()
-    // {
-    //   BorrowedBooks testBorrowedBooks = new BorrowedBooks(1, "Jimbo");
-    //   testBorrowedBooks.Save();
-    //   Assert.Equal(1, BorrowedBooks.GetAll().Count);
-    // }
+    [Fact]
+    public void Test_Save_SavesBorrowedBooksToDatabase()
+    {
+      BorrowedBooks testBorrowedBooks = new BorrowedBooks(1, 1);
+      testBorrowedBooks.Save();
+      Assert.Equal(1, BorrowedBooks.GetAll().Count);
+    }
     // [Fact]
     // public void Test_Find_FindsBorrowedBooksById()
     // {
