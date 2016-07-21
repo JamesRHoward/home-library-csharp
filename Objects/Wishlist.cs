@@ -51,9 +51,9 @@ namespace HomeLibrary
       rdr = cmd.ExecuteReader();
       while (rdr.Read())
       {
-        int readingListId = rdr.GetInt32(0);
-        int readingListBookId = rdr.GetInt32(1);
-        Wishlist newWishlist = new Wishlist (readingListBookId, readingListId);
+        int wishlistId = rdr.GetInt32(0);
+        int wishlistBookId = rdr.GetInt32(1);
+        Wishlist newWishlist = new Wishlist (wishlistBookId, wishlistId);
         allWishlist.Add(newWishlist);
       }
       if (rdr != null)
