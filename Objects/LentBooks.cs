@@ -133,7 +133,7 @@ namespace HomeLibrary
       SqlDataReader rdr;
       conn.Open();
 
-      SqlCommand cmd = new SqlCommand("UPDATE lent_books SET returned_bool = @LentBooksReturnBool OUTPUT INSERTED.returned_bool WHERE id = @LentBooksId;", conn);
+      SqlCommand cmd = new SqlCommand("UPDATE lent_books SET returned_bool = @LentBooksReturnedBool OUTPUT INSERTED.returned_bool WHERE id = @LentBooksId;", conn);
 
       SqlParameter updateReturnedBoolParameter = new SqlParameter();
       updateReturnedBoolParameter.ParameterName = "@LentBooksReturnedBool";

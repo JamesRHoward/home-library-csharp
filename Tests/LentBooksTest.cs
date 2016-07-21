@@ -44,28 +44,28 @@ namespace HomeLibrary
       LentBooks resultLentBooks = LentBooks.Find(idToSearchBy);
       Assert.Equal(notherTestLentBooks, resultLentBooks);
     }
-    // [Fact]
-    // public void Test_DeleteThis_RemoveSelectedLentBooksFromDataBase()
-    // {
-    //   LentBooks testLentBooks = new LentBooks (1, "Jimbo");
-    //   testLentBooks.Save();
-    //   int countAfterSave = LentBooks.GetAll().Count;
-    //   testLentBooks.DeleteThis();
-    //   int countAfterDeleteThis = LentBooks.GetAll().Count;
-    //   int[] expected = { 1, 0 };
-    //   int[] result = { countAfterSave, countAfterDeleteThis };
-    //   Assert.Equal(expected, result);
-    // }
-    // [Fact]
-    // public void Test_SellBook_ChangeReturnedBoolBooleanToTrue()
-    // {
-    //   LentBooks testLentBooks = new LentBooks (1, "Jimbo");
-    //   testLentBooks.Save();
-    //   testLentBooks.SellBook();
-    //   LentBooks retrievedTestSoldBook = LentBooks.GetAll()[0];
-    //   bool result = retrievedTestSoldBook.GetReturnedBool();
-    //   Assert.Equal(true, result);
-    // }
+    [Fact]
+    public void Test_DeleteThis_RemoveSelectedLentBooksFromDataBase()
+    {
+      LentBooks testLentBooks = new LentBooks (1, "Jimbo");
+      testLentBooks.Save();
+      int countAfterSave = LentBooks.GetAll().Count;
+      testLentBooks.DeleteThis();
+      int countAfterDeleteThis = LentBooks.GetAll().Count;
+      int[] expected = { 1, 0 };
+      int[] result = { countAfterSave, countAfterDeleteThis };
+      Assert.Equal(expected, result);
+    }
+    [Fact]
+    public void Test_SellBook_ChangeReturnedBoolBooleanToTrue()
+    {
+      LentBooks testLentBooks = new LentBooks (1, "Jimbo");
+      testLentBooks.Save();
+      testLentBooks.ReturnBook();
+      LentBooks retrievedTestSoldBook = LentBooks.GetAll()[0];
+      bool result = retrievedTestSoldBook.GetReturnedBool();
+      Assert.Equal(true, result);
+    }
     public void Dispose()
     {
       LentBooks.DeleteAll();
