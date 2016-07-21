@@ -1,0 +1,13 @@
+<a href="/Display/All">Your Books</a><br>
+<a href="/Display/Lent">Lent Books</a><br>
+<a href="/Display/Borrowed">Borrowed Books</a><br>
+<a href="/Display/Wishlist">Wishlist</a><br>
+<a href="/Display/ToSell">Books to Sell</a><br>
+
+<ul>
+@foreach (var book in Model) {
+  <li>
+    @book.GetTitle() by @book.GetAuthor()
+  </li>
+}
+</ul>
