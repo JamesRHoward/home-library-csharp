@@ -193,7 +193,6 @@ namespace HomeLibrary
 
     public void SellBook()
     {
-      // this.SetIsSold(true);
       this.Update(true);
     }
   }
