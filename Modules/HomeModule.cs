@@ -61,6 +61,31 @@ namespace HomeLibrary
         }
         return View["index.cshtml", model];
       };
+      Get["/Add/Your"]= _ => {
+        return View["add_your_books.cshtml"];
+      };
+      Post["/Add/Your"]= _ => {
+        // bool haveRead;
+        // string title = Request.Form["title"];
+        // string author = Request.Form["author"];
+        // if ( Request.Form["haveRead"]) {
+        //   haveRead = true;
+        // }
+        // else
+        // {
+        //   haveRead = false;
+        // }
+        Books newBook = new Books("The Two Towers", "JRR Tolkien", true);
+        newBook.Save();
+        OwnedBooks newOwnedBook = new OwnedBooks(newBook.GetId());
+        newOwnedBook.Save();
+        List<Books> model = new List<Books> {};
+        foreach (var book in OwnedBooks.GetAll())
+        {
+          model.Add(Books.Find(book.GetBookId()));
+        }
+        return View["index.cshtml", model];
+      };
     }
   }
 }
